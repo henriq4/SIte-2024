@@ -13,6 +13,12 @@ class _HomePageState extends State<HomePage> {
   final TestController controller = Modular.get<TestController>();
 
   @override
+  void initState() {
+    super.initState();
+    controller.getTests();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +41,8 @@ class _HomePageState extends State<HomePage> {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
+
+          print("${controller.error.value}, ${controller.state.value}");
 
           if (controller.error.value.isNotEmpty) {
             return Center(
@@ -75,8 +83,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        item.name,
+                      title: const Text(
+                        "item",
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,

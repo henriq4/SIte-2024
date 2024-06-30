@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:suap_uenp_app/modules/home/models/test_model.dart';
 
@@ -13,19 +11,14 @@ class TestRepository {
       '/breeds',
     );
 
-    print(response);
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
-      final List<TestModel> tests = [];
+      List<TestModel> breeds = (response.data['data'] as List)
+          .map((item) => TestModel.fromJson(item))
+          .toList();
 
-      final body = jsonDecode(response.data);
-
-      body['data'].map((item) {
-        final TestModel test = TestModel.fromMap(item);
-        tests.add(test);
-      }).toList();
-
-      return tests;
+      return breeds;
     } else if (response.statusCode == 404) {
       throw Exception('A url informada não é válida');
     } else {

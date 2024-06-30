@@ -1,19 +1,16 @@
 class TestModel {
-  late String id;
-  late String type;
-  late String name;
+  final String id;
+  final String type;
 
   TestModel({
-    required id,
-    required type,
-    required name,
+    required this.id,
+    required this.type,
   });
 
-  factory TestModel.fromMap(Map<String, dynamic> map) {
+  factory TestModel.fromJson(Map<String, dynamic> json) {
     return TestModel(
-      id: map['id'],
-      type: map['type'],
-      name: map['name'],
+      id: json['id'],
+      type: json['type'],
     );
   }
 }

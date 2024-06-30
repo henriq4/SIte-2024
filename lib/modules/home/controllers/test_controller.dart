@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:suap_uenp_app/modules/home/models/test_model.dart';
 import 'package:suap_uenp_app/modules/home/repositories/test_repository.dart';
@@ -19,6 +21,7 @@ class TestController {
 
     try {
       final result = await repository.getData();
+      log("print ${result.first.id}");
       state.value = result;
     } catch (e) {
       error.value = e.toString();
