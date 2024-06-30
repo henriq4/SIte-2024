@@ -4,20 +4,27 @@ import 'package:suap_uenp_app/modules/auth/auth_module.dart';
 
 import '../modules/core/core_module.dart';
 import '../modules/home/home_module.dart';
+import '../modules/splash/splash_module.dart';
 
 class AppModule extends Module {
   @override
   List<Module> get imports => [
         CoreModule(),
         AuthModule(),
+        HomeModule(),
       ];
 
   @override
-  void binds(i) {}
+  List<Bind> get binds => [];
 
   @override
-  void routes(r) {
-    r.module("/", module: HomeModule(), guards: [AuthGuard()]);
-    r.module("/auth/", module: AuthModule());
-  }
+  List<ModularRoute> get routes => [
+        ModuleRoute(
+          '/home/',
+          module: HomeModule(),
+          guards: [AuthGuard()],
+        ),
+        ModuleRoute('/auth/', module: AuthModule()),
+        ModuleRoute('/splash/', module: SplashModule())
+      ];
 }

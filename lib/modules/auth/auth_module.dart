@@ -1,14 +1,10 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:suap_uenp_app/modules/core/core_module.dart';
 
 import 'pages/login_page.dart';
 
-class AuthModule extends CoreModule {
+class AuthModule extends Module {
   @override
-  void binds(i) {}
-
-  @override
-  void routes(r) {
-    r.child("/", child: (context) => const LoginPage());
-  }
+  List<ModularRoute> get routes => [
+        ChildRoute("/", child: (_, args) => const LoginPage()),
+      ];
 }

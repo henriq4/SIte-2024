@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppWidget extends StatelessWidget {
+  AppWidget({
+    super.key,
+  }) {
+    Modular.setInitialRoute('/splash/');
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'My Smart App',
+      title: 'Suap Uenp',
       theme: ThemeData(primarySwatch: Colors.blue),
-      routerConfig: Modular.routerConfig,
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
     );
   }
 }
