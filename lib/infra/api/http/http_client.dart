@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suap_uenp_app/config/constants.dart';
 
 class ApiClient {
@@ -9,9 +9,7 @@ class ApiClient {
 
   String? token;
 
-  final _storage = const FlutterSecureStorage();
-
-  ApiClient() {
+  ApiClient(SharedPreferences storage) {
     client.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -21,8 +19,8 @@ class ApiClient {
         },
         onError: (DioException error, handler) async {
           if (error.response?.statusCode == 401) {
-            if (await _storage.containsKey(key: 'refreshToken')) {
-              if (await refreshToken()) {
+            if (storage.containsKey('refreshToken')) {
+              if (await refreshToken(storage)) {
                 return handler.resolve(await _retry(error.requestOptions));
               }
             }
@@ -34,8 +32,8 @@ class ApiClient {
     );
   }
 
-  Future<bool> refreshToken() async {
-    final refreshToken = await _storage.read(key: 'refreshToken');
+  Future<bool> refreshToken(SharedPreferences storage) async {
+    final refreshToken = storage.getString('refreshToken');
 
     final response = await client.post(
       '/auth/refresh-token',
@@ -50,7 +48,9 @@ class ApiClient {
     }
 
     token = null;
-    _storage.deleteAll();
+    storage.remove('token');
+    storage.remove('refreshToken');
+
     return false;
   }
 

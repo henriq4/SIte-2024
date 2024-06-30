@@ -37,6 +37,7 @@ dependencies:
   flutter_modular: ^6.3.3
   dio: ^5.4.3+1
   flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
