@@ -32,6 +32,10 @@ class ApiClient {
     );
   }
 
+  Dio createApiClient() {
+    return client;
+  }
+
   Future<bool> refreshToken(SharedPreferences storage) async {
     final refreshToken = storage.getString('refreshToken');
 
