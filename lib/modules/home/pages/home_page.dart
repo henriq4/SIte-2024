@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:suap_uenp_app/modules/auth/controllers/auth_controller.dart';
 import 'package:suap_uenp_app/modules/home/controllers/user_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = Modular.get<UserController>();
+  final authController = Modular.get<AuthController>();
 
   @override
   void initState() {
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: const Text(
-          'Consumo de APIs',
+          'Consumo SUAP',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -73,6 +75,7 @@ class _HomePageState extends State<HomePage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Image.network("https://suap.uenp.edu.br${user.photo_url}"),
                     Text(
                       user.email,
                       style: const TextStyle(
@@ -84,6 +87,10 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              ElevatedButton(
+                onPressed: authController.logout,
+                child: Text("Sair"),
+              )
             ],
           );
         },

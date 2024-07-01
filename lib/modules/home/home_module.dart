@@ -8,7 +8,7 @@ class HomeModule extends Module {
   @override
   List<Bind> get binds => [
         Bind.lazySingleton((i) => UserRepository(i()), export: true),
-        Bind.lazySingleton((i) => UserController(i()), export: true),
+        Bind.lazySingleton((i) => UserController(i(), i()), export: true),
       ];
 
   @override

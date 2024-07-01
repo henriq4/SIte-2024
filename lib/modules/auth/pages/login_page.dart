@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            loginController.login('abc');
+            loginController.login();
           },
           child: Text("Login"),
         ),

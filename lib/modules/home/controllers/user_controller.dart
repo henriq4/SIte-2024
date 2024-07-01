@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:suap_uenp_app/exceptions/not_authorized.dart';
+import 'package:suap_uenp_app/modules/auth/controllers/auth_controller.dart';
 import 'package:suap_uenp_app/modules/home/models/user_models.dart';
 import 'package:suap_uenp_app/modules/home/repositories/user_repository.dart';
 
 class UserController {
   final UserRepository repository;
+  final AuthController authController;
 
-  UserController(this.repository);
+  UserController(this.repository, this.authController);
 
   final isLoading = ValueNotifier<bool>(false);
 
@@ -32,6 +35,8 @@ class UserController {
     try {
       final result = await repository.getData();
       state.value = result;
+    } on NotAuthorized {
+      authController.logout();
     } catch (e) {
       error.value = e.toString();
     }
