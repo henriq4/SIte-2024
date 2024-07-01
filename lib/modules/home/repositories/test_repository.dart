@@ -11,8 +11,6 @@ class TestRepository {
       '/breeds',
     );
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       List<TestModel> breeds = (response.data['data'] as List)
           .map((item) => TestModel.fromJson(item))

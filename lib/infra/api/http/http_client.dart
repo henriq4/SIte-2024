@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suap_uenp_app/config/constants.dart';
 
@@ -7,13 +8,15 @@ class ApiClient {
     BaseOptions(baseUrl: Constants.baseUrl),
   );
 
-  String? token;
+  String? token = Modular.get<SharedPreferences>().getString('token');
 
   ApiClient(SharedPreferences storage) {
     client.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           options.headers['Authorization'] = 'Bearer $token';
+
+          print("print ${options.headers}");
 
           return handler.next(options);
         },

@@ -42,8 +42,6 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          print("${controller.error.value}, ${controller.state.value}");
-
           if (controller.error.value.isNotEmpty) {
             return Center(
               child: Text(
