@@ -1,3 +1,3 @@
 class Constants {
-  static const String baseUrl = 'https://dogapi.dog/api/v2';
+  static const String baseUrl = 'https://suap.uenp.edu.br/api';
 }

@@ -14,9 +14,8 @@ class ApiClient {
     client.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          options.headers['Authorization'] = 'Bearer $token';
-
-          print("print ${options.headers}");
+          options.headers['Authorization'] =
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE5ODQyOTMxLCJpYXQiOjE3MTk4NDI2MzEsImp0aSI6IjQ5NzcwN2EyYTE2MDQyM2VhY2VkMDcxYTViYmEwY2I1IiwidXNlcl9pZCI6MTIyOTN9.sXoYnDB2Kdkoirl9MfO1yvE83wmXiTR5NWFpekY3d8Y';
 
           return handler.next(options);
         },
