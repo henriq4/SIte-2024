@@ -6,11 +6,11 @@ class AuthRepository {
 
   AuthRepository(this.client);
 
-  Future<LoginModel> login() async {
+  Future<LoginModel> login(String username, String password) async {
     try {
       final response = await client.post(
         '/v2/autenticacao/token/',
-        data: {'username': '202211113030003', 'password': '!HEl7&m*c'},
+        data: {'username': username, 'password': password},
         cancelToken: CancelToken(),
       );
 

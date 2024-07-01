@@ -10,9 +10,9 @@ class AuthController {
 
   bool get isAuthenticated => store.containsKey('token');
 
-  Future<void> login() async {
+  Future<void> login(String username, String password) async {
     try {
-      final login = await repository.login();
+      final login = await repository.login(username, password);
 
       await store.setString('token', login.access);
       await store.setString('refreshToken', login.refresh);

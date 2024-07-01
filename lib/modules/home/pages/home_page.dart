@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:suap_uenp_app/modules/auth/controllers/auth_controller.dart';
@@ -75,7 +76,13 @@ class _HomePageState extends State<HomePage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network("https://suap.uenp.edu.br${user.photo_url}"),
+                    CachedNetworkImage(
+                      imageUrl: "https://suap.uenp.edu.br${user.photo_url}",
+                      progressIndicatorBuilder: (_, __, downloadProgress) =>
+                          CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                      ),
+                    ),
                     Text(
                       user.email,
                       style: const TextStyle(
