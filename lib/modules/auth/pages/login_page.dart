@@ -22,30 +22,47 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Login Page')),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: userController,
-              decoration: const InputDecoration(labelText: 'Usuário'),
-            ),
-            TextFormField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Senha'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                loginController.login(
-                  userController.text,
-                  passwordController.text,
-                );
-              },
-              child: Text("Login"),
-            ),
-          ],
-        ),
-      ),
+      body: AnimatedBuilder(
+          animation: Listenable.merge([
+            loginController.isLoading,
+          ]),
+          builder: (context, child) {
+            return Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: userController,
+                    decoration: const InputDecoration(labelText: 'Usuário'),
+                  ),
+                  TextFormField(
+                    controller: passwordController,
+                    decoration: const InputDecoration(labelText: 'Senha'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      loginController.login(
+                        userController.text,
+                        passwordController.text,
+                      );
+                    },
+                    icon: loginController.isLoading.value
+                        ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Icon(Icons.feedback),
+                    label: Text("Login"),
+                  ),
+                ],
+              ),
+            );
+          }),
     );
   }
 }
