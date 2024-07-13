@@ -24,6 +24,10 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Perfil'),
+        centerTitle: true,
+      ),
       body: AnimatedBuilder(
         animation: Listenable.merge([
           controller.isLoading,
@@ -53,41 +57,157 @@ class _PerfilPageState extends State<PerfilPage> {
 
           return Column(
             children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  user.nome_usual,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: "https://suap.uenp.edu.br${user.photo_url}",
-                      progressIndicatorBuilder: (_, __, downloadProgress) =>
-                          CircularProgressIndicator(
-                        value: downloadProgress.progress,
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                          "https://suap.uenp.edu.br${user.photo_url}",
+                        ),
                       ),
                     ),
-                    Text(
-                      user.email,
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
+                    Column(
+                      children: [
+                        Text(user.nome_usual),
+                        Text(user.tipo_vinculo),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text("Mural"),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card.filled(
+                            color: Colors.grey.shade200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.book_rounded),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 6.0,
+                                      bottom: 10.0,
+                                    ),
+                                    child: Text("Documentos"),
+                                  ),
+                                  Text(
+                                    "clique para ver seus docmentos",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Card.filled(
+                            color: Colors.grey.shade200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.person),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 6.0,
+                                      bottom: 10.0,
+                                    ),
+                                    child: Text("Dados pessoais"),
+                                  ),
+                                  Text(
+                                    "clique para ver suas informações pessoais",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card.filled(
+                            color: Colors.grey.shade200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.calendar_today_rounded),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 6.0,
+                                      bottom: 10.0,
+                                    ),
+                                    child: Text("Disciplinas"),
+                                  ),
+                                  Text(
+                                    "clique para ver suas disciplinas cadastradas",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Card.filled(
+                            color: Colors.grey.shade200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.call_rounded),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 6.0,
+                                      bottom: 10.0,
+                                    ),
+                                    child: Text("Chamados"),
+                                  ),
+                                  Text(
+                                    "clique para ver seus chamados",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
+              Spacer(),
               ElevatedButton(
                 onPressed: authController.logout,
                 child: Text("Sair"),
-              )
+              ),
             ],
           );
         },
