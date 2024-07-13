@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:suap_uenp_app/modules/auth/controllers/auth_controller.dart';
-import 'package:suap_uenp_app/modules/home/controllers/user_controller.dart';
+import 'package:suap_uenp_app/modules/calendar/pages/calendar_page.dart';
+import 'package:suap_uenp_app/modules/perfil/pages/perfil_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,92 +11,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = Modular.get<UserController>();
-  final authController = Modular.get<AuthController>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.getData();
-  }
+  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
-        title: const Text(
-          'Consumo SUAP',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      body: PageView(
+        controller: pageController,
+        children: [
+          Center(
+            child: Text("HOME"),
           ),
-        ),
+          CalendarPage(),
+          PerfilPage(),
+        ],
       ),
-      body: AnimatedBuilder(
-        animation: Listenable.merge([
-          controller.isLoading,
-          controller.error,
-          controller.state,
-        ]),
+      bottomNavigationBar: AnimatedBuilder(
+        animation: pageController,
         builder: (context, child) {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (controller.error.value.isNotEmpty) {
-            return Center(
-              child: Text(
-                controller.error.value,
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
+          return BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            currentIndex: pageController.page?.round() ?? 0,
+            onTap: (index) => {
+              pageController.jumpToPage(index),
+              Modular.to.navigate(index == 0
+                  ? '/'
+                  : index == 1
+                      ? '/calendar'
+                      : '/perfil'),
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
               ),
-            );
-          }
-
-          var user = controller.state.value;
-
-          return Column(
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  user.nome_usual,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: "https://suap.uenp.edu.br${user.photo_url}",
-                      progressIndicatorBuilder: (_, __, downloadProgress) =>
-                          CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                      ),
-                    ),
-                    Text(
-                      user.email,
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.mark_chat_read),
+                label: 'Matérias',
               ),
-              ElevatedButton(
-                onPressed: authController.logout,
-                child: Text("Sair"),
-              )
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Perfil',
+              ),
             ],
           );
         },

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:suap_uenp_app/exceptions/not_authorized.dart';
-import 'package:suap_uenp_app/modules/home/models/user_models.dart';
+import 'package:suap_uenp_app/modules/perfil/models/user_models.dart';
 
 class UserRepository {
   final Dio client;

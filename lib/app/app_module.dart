@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:suap_uenp_app/guards/auth_guard.dart';
 import 'package:suap_uenp_app/modules/auth/auth_module.dart';
+import 'package:suap_uenp_app/modules/perfil/perfil_module.dart';
 
 import '../modules/core/core_module.dart';
 import '../modules/home/home_module.dart';
@@ -12,6 +13,7 @@ class AppModule extends Module {
         CoreModule(),
         AuthModule(),
         HomeModule(),
+        PerfilModule(),
       ];
 
   @override
