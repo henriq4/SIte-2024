@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
+import 'package:suap_uenp_app/modules/calendar/pages/calendar_page.dart';
+import 'package:suap_uenp_app/modules/home/pages/home_page.dart';
 import 'package:suap_uenp_app/modules/perfil/pages/perfil_page.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -32,8 +34,8 @@ class _HomeLayoutState extends State<HomeLayout> {
       body: LazyLoadIndexedStack(
         index: _selectedIndex,
         children: const [
-          Center(child: Text("home")),
-          Center(child: Text("home")),
+          HomePage(),
+          CalendarPage(),
           PerfilPage(),
         ],
       ),
