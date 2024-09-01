@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:suap_uenp_app/modules/shared/controllers/academic_year_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,7 +10,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final academicYearController = Modular.get<AcademicYearController>();
   final pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    academicYearController.getHigh();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,87 +26,117 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Feed'),
         centerTitle: true,
       ),
-      body: const Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Recente',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
+      body: AnimatedBuilder(
+        animation: Listenable.merge([
+          academicYearController.isLoading,
+          academicYearController.error,
+          academicYearController.stateHigh,
+        ]),
+        builder: (context, snapshot) {
+          if (academicYearController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (academicYearController.error.value.isNotEmpty) {
+            return Center(
+              child: Text(
+                academicYearController.error.value,
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
                 ),
-                Row(
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
+          var academicYear = academicYearController.stateHigh.value;
+
+          return Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Card.filled(
-                        child: SizedBox(
-                          height: 120,
-                        ),
+                    Text(
+                      'Recente',
+                      style: TextStyle(
+                        fontSize: 20,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Expanded(
-                      child: Card.filled(
-                        child: SizedBox(
-                          height: 120,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card.filled(
+                            child: SizedBox(
+                              height: 120,
+                            ),
+                          ),
                         ),
+                        Expanded(
+                          child: Card.filled(
+                            child: SizedBox(
+                              height: 120,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Card.filled(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 80,
                       ),
                     ),
                   ],
                 ),
-                Card.filled(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 80,
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Notícias',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(academicYear.ano_letivo.toString()),
+                    const Text(
+                      'Notícias',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Card.filled(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 160,
+                      ),
+                    ),
+                    Card.filled(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 160,
+                      ),
+                    ),
+                    Card.filled(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 160,
+                      ),
+                    ),
+                  ],
                 ),
-                Card.filled(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 160,
-                  ),
-                ),
-                Card.filled(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 160,
-                  ),
-                ),
-                Card.filled(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 160,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
